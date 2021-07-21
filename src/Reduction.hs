@@ -64,7 +64,9 @@ solve3 (n0, m, agencies) = unlines $
   & map (\(name, cost) -> name ++ " " ++ show @Int cost)
 
 solve4 :: Int -> Int -> (String, Int, Int) -> (String, Int)
-solve4 n0 m (name, oneRate, halfRate) = (name, go 0 n0)
+solve4 n0 m (name, oneRate, halfRate) =
+  -- trace (show (n0, m, name, oneRate, halfRate)) $
+  (name, go 0 n0)
   where
     go !acc !n =
       let
@@ -72,8 +74,8 @@ solve4 n0 m (name, oneRate, halfRate) = (name, go 0 n0)
         half_quantity = n `div` 2 :: Int
         oneByOne = (n - half_quantity) * oneRate
       in
-        -- trace (show (n0, m, name, oneRate, halfRate)) $
-        if oneByOne <= halfRate
+        -- trace (show (name, acc, n)) $
+        if oneByOne <= halfRate || half_quantity < m
           then acc + (n - m) * oneRate
           else go (acc + halfRate) half_quantity
 
